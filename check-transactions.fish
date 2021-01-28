@@ -6,7 +6,10 @@ set count_rejected 0
 
 for txid in $transactions
     echo -n $txid'... '
-    set txst (concordium-client transaction status $txid | rg -or '$1' '^Transaction is finalized into block .+ with status "(.+)".*')
+    set txst (
+        concordium-client transaction status $txid --grpc-ip 127.0.0.1 |\
+            rg -or '$1' '^Transaction is finalized into block .+ with status "(.+)".*'
+    )
 
     switch $txst
         case success

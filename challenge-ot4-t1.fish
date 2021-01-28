@@ -39,7 +39,8 @@ function sent_transaction
         --receiver $argv[3] \
         --amount 0.000001 \
         --no-confirm \
-        --no-wait 2>&1 >/dev/null
+        --no-wait \
+        --grpc-ip 127.0.0.1 2>&1 >/dev/null
 end
 
 mkdir -p $dir/ot4-t1
@@ -51,7 +52,7 @@ for i in (seq 1 $txcount)
     set tmp (mktemp)
     sent_transaction $password $sender (pick_receiver) >$tmp
 
-    echo >>$dir/ot4-t1.log
     cat $tmp >>$dir/ot4-t1.log
+    echo >>$dir/ot4-t1.log
     cat $tmp | rg -or '$1' '^Transaction \'(.+)\' sent.*' >>$txids_file
 end

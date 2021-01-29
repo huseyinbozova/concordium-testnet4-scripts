@@ -14,7 +14,7 @@ Put `concordium-client` in /usr/local/bin/
 
 1. For all four challenge-ot4-t* scripts you'll need the list of receivers.  
 
-Receive will be picked randomly for each transaction.
+Receiver for each transaction will be picked randomly.
 
 ```shell
 concordium-client account list > accounts-list.txt

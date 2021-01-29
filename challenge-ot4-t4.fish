@@ -39,7 +39,6 @@ function send_transaction
         --for 50 \
         --starting (date -d '+1 hour' '+%Y-%m-%dT%H:%M:%SZ') \
         --no-confirm \
-        --no-wait \
         --grpc-ip 127.0.0.1 2>&1 >/dev/null
 end
 

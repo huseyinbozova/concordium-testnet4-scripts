@@ -21,7 +21,7 @@ test -z "$password" && print_usage && exit 1
 test -z "$sender" && print_usage && exit 1
 
 if test -z "$txcount"
-    set txcount 100
+    set txcount (random 110 130)
 end
 
 not type -q rg && print_error 'rg not found' && exit 1
@@ -41,7 +41,6 @@ function send_transaction
         --receiver $argv[3] \
         --amount 0.000001 \
         --no-confirm \
-        --no-wait \
         --grpc-ip 127.0.0.1 2>&1 >/dev/null
 end
 
@@ -49,7 +48,7 @@ mkdir -p $dir/$txdir
 set txids_file "$dir/$txdir/txids_"(date '+%Y%m%d_%H%M%S.txt')
 
 for i in (seq 1 $txcount)
-    test $i -gt 1 && sleep (random 1 30)
+    test $i -gt 1 && sleep (random 3 10)
 
     set tmp (mktemp)
     send_transaction $password $sender (pick_receiver) >$tmp

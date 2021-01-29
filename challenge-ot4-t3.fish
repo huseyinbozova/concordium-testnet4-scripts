@@ -34,7 +34,6 @@ function send_transaction
     set args --sender $argv[4] \
         --amount 0.000001 \
         --no-confirm \
-        --no-wait \
         --grpc-ip 127.0.0.1
 
     if test "$argv[1]" = transaction
@@ -69,8 +68,5 @@ save_log
 send_transaction account encrypt $password $sender >$tmp
 save_log
 
-# WARNING: Without timeout this transaction will be rejected with error:
-#     Transaction rejected: the proof for the secret to public transfer doesn't validate.
-sleep (random 180 256)
 send_transaction account decrypt $password $sender >$tmp
 save_log

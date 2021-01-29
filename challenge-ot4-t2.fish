@@ -36,7 +36,6 @@ function send_transaction
         --receiver $argv[3] \
         --amount 0.000001 \
         --no-confirm \
-        --no-wait \
         --grpc-ip 127.0.0.1 2>&1 >/dev/null
 end
 

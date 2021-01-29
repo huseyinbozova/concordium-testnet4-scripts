@@ -1,0 +1,51 @@
+#!/usr/bin/env fish
+
+set dir (dirname (status -f))
+set script (basename (status -f))
+set txdir (string replace 'challenge-' '' (basename $script .fish))
+
+function print_usage
+    echo "Usage: $script password sender"
+end
+
+function print_error
+    echo (set_color red)$argv(set_color normal)
+end
+
+not test -f $dir/accounts-list.txt && print_error 'accounts-list.txt not found' && exit 1
+
+set password $argv[1]
+set sender $argv[2]
+test -z "$password" && print_usage && exit 1
+test -z "$sender" && print_usage && exit 1
+
+not type -q rg && print_error 'rg not found' && exit 1
+
+set receivers (cat $dir/accounts-list.txt)
+
+function pick_receiver
+    set num (random 1 (count $receivers))
+    echo $receivers[$num]
+end
+
+# Usage: sent_transaction password sender receiver
+function sent_transaction
+    echo -e "$argv[1]\n$argv[1]" | \
+        concordium-client transaction send-gtu-encrypted \
+        --sender $argv[2] \
+        --receiver $argv[3] \
+        --amount 0.000001 \
+        --no-confirm \
+        --no-wait \
+        --grpc-ip 127.0.0.1 2>&1 >/dev/null
+end
+
+mkdir -p $dir/$txdir
+set txids_file "$dir/$txdir/txids_"(date '+%Y%m%d_%H%M%S.txt')
+
+set tmp (mktemp)
+sent_transaction $password $sender (pick_receiver) >$tmp
+
+cat $tmp >>$dir/$txdir.log
+echo >>$dir/$txdir.log
+cat $tmp | rg -or '$1' '^Transaction \'(.+)\' sent.*' >>$txids_file

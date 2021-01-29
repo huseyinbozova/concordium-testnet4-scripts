@@ -1,14 +1,16 @@
 #!/usr/bin/env fish
 
+set dir (dirname (status -f))
+set script (basename (status -f))
+set txdir (string replace 'challenge-' '' (basename $script .fish))
+
 function print_usage
-    echo 'Usage: challenge-ot4-t1.fish password sender [txcount]'
+    echo "Usage: $script password sender [txcount]"
 end
 
 function print_error
     echo (set_color red)$argv(set_color normal)
 end
-
-set dir (dirname (status -f))
 
 not test -f $dir/accounts-list.txt && print_error 'accounts-list.txt not found' && exit 1
 
@@ -43,8 +45,8 @@ function sent_transaction
         --grpc-ip 127.0.0.1 2>&1 >/dev/null
 end
 
-mkdir -p $dir/ot4-t1
-set txids_file "$dir/ot4-t1/txids_"(date '+%Y%m%d_%H%M%S.txt')
+mkdir -p $dir/$txdir
+set txids_file "$dir/$txdir/txids_"(date '+%Y%m%d_%H%M%S.txt')
 
 for i in (seq 1 $txcount)
     test $i -gt 1 && sleep (random 1 30)
@@ -52,7 +54,7 @@ for i in (seq 1 $txcount)
     set tmp (mktemp)
     sent_transaction $password $sender (pick_receiver) >$tmp
 
-    cat $tmp >>$dir/ot4-t1.log
-    echo >>$dir/ot4-t1.log
+    cat $tmp >>$dir/$txdir.log
+    echo >>$dir/$txdir.log
     cat $tmp | rg -or '$1' '^Transaction \'(.+)\' sent.*' >>$txids_file
 end

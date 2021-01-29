@@ -69,7 +69,7 @@ save_log
 send_transaction account encrypt $password $sender >$tmp
 save_log
 
-# WARNING: Without timeout this transaction will be rejected with message:
+# WARNING: Without timeout this transaction will be rejected with error:
 #     Transaction rejected: the proof for the secret to public transfer doesn't validate.
 sleep (random 180 256)
 send_transaction account decrypt $password $sender >$tmp

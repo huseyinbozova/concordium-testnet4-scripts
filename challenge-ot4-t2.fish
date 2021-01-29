@@ -28,8 +28,8 @@ function pick_receiver
     echo $receivers[$num]
 end
 
-# Usage: sent_transaction password sender receiver
-function sent_transaction
+# Usage: send_transaction password sender receiver
+function send_transaction
     echo -e "$argv[1]\n$argv[1]" | \
         concordium-client transaction send-gtu-encrypted \
         --sender $argv[2] \
@@ -44,7 +44,7 @@ mkdir -p $dir/$txdir
 set txids_file "$dir/$txdir/txids_"(date '+%Y%m%d_%H%M%S.txt')
 
 set tmp (mktemp)
-sent_transaction $password $sender (pick_receiver) >$tmp
+send_transaction $password $sender (pick_receiver) >$tmp
 
 cat $tmp >>$dir/$txdir.log
 echo >>$dir/$txdir.log

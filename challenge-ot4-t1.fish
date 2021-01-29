@@ -33,8 +33,8 @@ function pick_receiver
     echo $receivers[$num]
 end
 
-# Usage: sent_transaction password sender receiver
-function sent_transaction
+# Usage: send_transaction password sender receiver
+function send_transaction
     echo "$argv[1]" | \
         concordium-client transaction send-gtu \
         --sender $argv[2] \
@@ -52,7 +52,7 @@ for i in (seq 1 $txcount)
     test $i -gt 1 && sleep (random 1 30)
 
     set tmp (mktemp)
-    sent_transaction $password $sender (pick_receiver) >$tmp
+    send_transaction $password $sender (pick_receiver) >$tmp
 
     cat $tmp >>$dir/$txdir.log
     echo >>$dir/$txdir.log

@@ -1,13 +1,29 @@
 #!/usr/bin/env fish
 
+function print_usage
+    echo 'Usage: '(basename (status -f))' txfile [txfile]'
+end
+
+function print_error
+    echo (set_color red)$argv(set_color normal)
+end
+
 set count_success 0
 set count_rejected 0
 set total 0
 
-for file in $argv
-    set transactions (cat $file)
+if test (count $argv) -lt 1
+    print_usage
+    exit 1
+end
 
-    for txid in $transactions
+for file in $argv
+    if not test -f $file
+        print_error 'File not found: '$file
+        continue
+    end
+
+    for txid in (cat $file)
         echo -n $txid' ... '
         set txst (
             concordium-client transaction status $txid --grpc-ip 127.0.0.1 |\

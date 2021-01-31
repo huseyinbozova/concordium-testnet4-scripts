@@ -26,7 +26,7 @@ function send_transaction
                 --amount 0.05 \
                 --every Minute \
                 --for 50 \
-                --starting (date -d '+1 hour' '+%Y-%m-%dT%H:%M:%SZ') \
+                --starting (date -ud '+1 hour' '+%FT%H:%M:%SZ') \
                 --no-confirm \
                 --grpc-ip 127.0.0.1 2>&1
         )

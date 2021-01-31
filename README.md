@@ -12,7 +12,7 @@ Put `concordium-client` in /usr/local/bin/
 
 # Install
 
-1. For all four challenge-ot4-t* scripts you'll need the list of receivers.  
+1. For all four ot4-t* scripts you'll need the list of receivers.  
 
 Receiver for each transaction will be picked randomly.
 

@@ -20,7 +20,8 @@ Receiver for each transaction will be picked randomly.
 concordium-client account list > accounts-list.txt
 ```
 
-> WARNING: Remove your account(s) from accounts-list.txt before proceed
+| :exclamation:  Remove your account(s) from accounts-list.txt before proceed |
+| --------------------------------------------------------------------------- |
 
 2. Copy all fish scripts and accounts-list.txt to ~/scripts
 

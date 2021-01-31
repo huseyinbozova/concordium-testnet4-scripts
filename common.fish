@@ -28,6 +28,7 @@ function txids_filename
 end
 
 function split_output
+    date -uIseconds
     string split0 -- $argv
     echo
     string split0 -- $argv | rg -or '$1' $txid_regex 1>&2
